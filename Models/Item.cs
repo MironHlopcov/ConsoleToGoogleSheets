@@ -15,9 +15,10 @@ namespace ConsoleToGoogleSheets.Models
         public string BusinessUnit { get; set; }
         public string Gender { get; set; }
         public string Ethnicity { get; set; }
-        public string Age { get; set; }
-        public string HireDate { get; set; }
-        public string AnnualSalary { get; set; }
+        public int Age { get; set; }
+        //public string HireDate { get; set; }
+        public DateTime HireDate { get; set; }
+        public decimal AnnualSalary { get; set; }
         public string Bonus { get; set; }
         public string Country { get; set; }
         public string City { get; set; }

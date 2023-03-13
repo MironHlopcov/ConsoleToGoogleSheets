@@ -70,7 +70,7 @@ namespace ConsoleToGoogleSheets
             var response = appendRequest.Execute();
         }
 
-        public List<Item> ReadItems()
+        public List<Item> ReadItemsAsync()
         {
             var range = $"{SheetName}!A:N";
             var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
@@ -79,14 +79,19 @@ namespace ConsoleToGoogleSheets
             var items = ItemsMapper.MapFromRangeData(values);
             return items;
         }
-        public async Task<AppendValuesResponse> WriteItemsAsync(Item[] items )
+        public async Task<AppendValuesResponse> AddItemsAsync(Item[] items )
         {
             var range = $"{SheetName}!A:N";
             var valueRange = ItemsMapper.MapToRangeData(items);
-
             var appendRequest = service.Spreadsheets.Values.Append(valueRange, SpreadSheetId, range);
             appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
-            return await appendRequest.ExecuteAsync();
+            return await appendRequest.ExecuteAsync().ConfigureAwait(false);
+            //return await Task.Run(async () =>
+            //{
+            //    await Task.Delay(10000).ConfigureAwait(false);
+            //    return await appendRequest.ExecuteAsync().ConfigureAwait(false);
+            //}); 
+           
         }
     }
 }

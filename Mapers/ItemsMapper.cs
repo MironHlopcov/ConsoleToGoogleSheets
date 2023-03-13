@@ -24,7 +24,17 @@ namespace ConsoleToGoogleSheets.Mapers
                 {
                     var prop = propertis[i];
                     if (prop != null && value.Count - 1 >= i)
-                        prop.SetValue(item, value[i], null);
+                    {
+                        var typezedVamue = prop.PropertyType.Name switch
+                        {
+                            nameof(DateTime) =>value[i].ToString() =="" ? null: DateTime.Parse(value[i].ToString()),
+                            nameof(Int32)=> value[i].ToString() == "" ? null : Int32.Parse(value[i].ToString()),
+                            nameof(Decimal)=>value[i].ToString() == "" ? null : Decimal.Parse(value[i].ToString()),
+                            _ => value[i]
+                        };
+                        //prop.SetValue(item, value[i], null);
+                        prop.SetValue(item, typezedVamue, null);
+                    }
                 }
                 items.Add(item);
             }
